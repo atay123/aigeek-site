@@ -48,6 +48,16 @@ python3 -m http.server 5173
   - 由于是纯静态，Vercel 将直接部署
 - 首次部署完成后获得域名（如 https://aigeek-site.vercel.app）
 
+### 二次部署与变更发布
+- 修改文件后，执行：
+  ```bash
+  git add .
+  git commit -m "chore: update site content"
+  git push
+  ```
+- 或在 Vercel 仪表盘内点击 Redeploy 进行重发。
+- 若遇到 Unexpected token '<'，请确认 vercel.json 中的路由包含静态资源白名单（本项目已配置）。
+
 4) 使用 vercel.json（可选）
 - 已提供 `vercel.json`，Vercel 会自动识别静态站点
 - 如使用 CLI，在项目根目录执行：
