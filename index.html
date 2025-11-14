@@ -1,212 +1,414 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-  <title>AI极客</title>
-  <meta name="description" content="AI极客——以创新AI技术驱动企业增长，提供智能产品与解决方案。">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI ARCHITECT | ATAY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Share Tech Mono"', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            black: '#050505',
+                            dark: '#0a0a12',
+                            cyan: '#00f3ff',
+                            pink: '#ff00ff',
+                            yellow: '#fcee0a',
+                            dim: 'rgba(0, 243, 255, 0.1)'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glitch': 'glitch 1s linear infinite',
+                        'scan': 'scan 4s linear infinite',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '2%, 64%': { transform: 'translate(2px,0) skew(0deg)' },
+                            '4%, 60%': { transform: 'translate(-2px,0) skew(0deg)' },
+                            '62%': { transform: 'translate(0,0) skew(5deg)' },
+                        },
+                        scan: {
+                            '0%': { backgroundPosition: '0 -100vh' },
+                            '100%': { backgroundPosition: '0 100vh' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff;
+            border-radius: 2px;
+        }
+
+        /* Neon Text Effects */
+        .text-glow-cyan {
+            text-shadow: 0 0 5px #00f3ff, 0 0 10px #00f3ff;
+        }
+        .text-glow-pink {
+            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+        }
+        
+        /* Cyberpunk Borders */
+        .cyber-border {
+            position: relative;
+            border: 1px solid #00f3ff;
+            background: rgba(10, 10, 18, 0.7);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
+        }
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, transparent 50%, #00f3ff 50%);
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.3;
+        }
+
+        /* Canvas Background */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Glitch Effect Wrapper */
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-wrapper::before,
+        .glitch-wrapper::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050505;
+        }
+        .glitch-wrapper::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00ff;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch-wrapper::after {
+            left: -2px;
+            text-shadow: -1px 0 #00f3ff;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 31px, 0); }
+            20% { clip: rect(65px, 9999px, 19px, 0); }
+            40% { clip: rect(13px, 9999px, 86px, 0); }
+            60% { clip: rect(2px, 9999px, 67px, 0); }
+            80% { clip: rect(99px, 9999px, 20px, 0); }
+            100% { clip: rect(44px, 9999px, 92px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(69px, 9999px, 39px, 0); }
+            20% { clip: rect(4px, 9999px, 55px, 0); }
+            40% { clip: rect(96px, 9999px, 73px, 0); }
+            60% { clip: rect(37px, 9999px, 20px, 0); }
+            80% { clip: rect(75px, 9999px, 48px, 0); }
+            100% { clip: rect(16px, 9999px, 12px, 0); }
+        }
+    </style>
 </head>
-<body>
-  <canvas id="bg" aria-hidden="true"></canvas>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <span class="logo-glow">AI</span><span class="logo-thin">极客</span>
-      </div>
-      <nav>
-        <a href="#about">关于我们</a>
-        <a href="#products">产品与服务</a>
-        <a href="#solutions">解决方案</a>
-        <a href="#contact">联系我们</a>
-      </nav>
-      <a class="cta" href="#contact">获取方案</a>
-    </div>
-  </header>
+<body class="font-mono antialiased selection:bg-cyber-pink selection:text-white">
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-text">
-          <h1><span class="grad">重构增长</span>，由AI驱动</h1>
-          <p class="lead">AI极客以大模型、智能体与数据智能为核心，帮助企业实现从洞察到决策的全链路智能升级。</p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#products">探索产品</a>
-            <a class="btn ghost" href="#solutions">查看方案</a>
-          </div>
-          <div class="trust">
-            <span>企业可信 · 安全合规 · 高可用</span>
-          </div>
+    <!-- Background Animation -->
+    <canvas id="matrix-bg"></canvas>
+    
+    <!-- CRT Scanline Effect -->
+    <div class="scanlines"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 border-b border-cyber-dim backdrop-blur-sm bg-cyber-black/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-cyber-cyan text-xl font-bold tracking-wider">[ATAY_AI]</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-cyber-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">/// HOME</a>
+                        <a href="#skills" class="hover:text-cyber-pink transition-colors px-3 py-2 rounded-md text-sm font-medium">/// SKILLS</a>
+                        <a href="#projects" class="hover:text-cyber-yellow transition-colors px-3 py-2 rounded-md text-sm font-medium">/// PROJECTS</a>
+                        <a href="#contact" class="text-cyber-cyan border border-cyber-cyan hover:bg-cyber-cyan hover:text-black transition-all px-3 py-1 rounded-sm text-sm font-medium">CONTACT</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="hero-visual" role="img" aria-label="AI网络图可视化">
-          <div class="orb orb-a"></div>
-          <div class="orb orb-b"></div>
-          <div class="mesh"></div>
-          <div class="card-stats">
-            <div class="stat">
-              <div class="num">99.95%</div>
-              <div class="tag">SLA可用性</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-16">
+        <div class="text-center z-10 px-4">
+            <div class="mb-4 text-cyber-cyan tracking-[0.5em] text-sm animate-pulse">SYSTEM ONLINE // V.2.0.24</div>
+            <h1 class="text-6xl md:text-8xl font-black mb-6 text-white glitch-wrapper" data-text="AI ARCHITECT">
+                AI ARCHITECT
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Coding the <span class="text-cyber-pink">Synthetic Consciousness</span> of Tomorrow.
+                <br> Deep Learning | Computer Vision | Generative AI
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#projects" class="px-8 py-3 bg-cyber-cyan text-black font-bold hover:bg-white hover:shadow-[0_0_20px_rgba(0,243,255,0.6)] transition-all duration-300 clip-path-slant">
+                    INIT_PROJECTS()
+                </a>
+                <a href="#contact" class="px-8 py-3 border border-cyber-pink text-cyber-pink font-bold hover:bg-cyber-pink hover:text-black hover:shadow-[0_0_20px_rgba(255,0,255,0.6)] transition-all duration-300">
+                    CONNECT_DATA
+                </a>
             </div>
-            <div class="stat">
-              <div class="num">10x</div>
-              <div class="tag">效率提升</div>
-            </div>
-            <div class="stat">
-              <div class="num">24/7</div>
-              <div class="tag">智能值守</div>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
 
-    <section id="about" class="section">
-      <div class="container two-col">
-        <div>
-          <h2>关于我们</h2>
-          <p>AI极客隶属于个人工作室，汇聚算法、工程、产品与行业专家，专注将前沿AI技术落地到真实业务场景，打造可衡量的业务价值。</p>
-          <ul class="checklist">
-            <li>企业级AI平台与工具链</li>
-            <li>行业最佳实践方法论</li>
-            <li>安全合规与隐私保护</li>
-          </ul>
-        </div>
-        <div class="panel">
-          <h3>技术栈</h3>
-          <div class="chips">
-            <span class="chip">大语言模型</span>
-            <span class="chip">向量检索</span>
-            <span class="chip">知识库</span>
-            <span class="chip">多智能体</span>
-            <span class="chip">数据治理</span>
-            <span class="chip">AIGC</span>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 relative z-10 bg-cyber-dark/90 border-t border-cyber-dim">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-16 text-glow-cyan"><span class="text-cyber-pink">>></span> NEURAL CAPABILITIES</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Skill Card 1 -->
+                <div class="cyber-border p-6 group hover:translate-y-[-5px] transition-transform duration-300">
+                    <div class="text-cyber-cyan text-4xl mb-4"><i class="fas fa-brain"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-cyan">MACHINE LEARNING</h3>
+                    <div class="h-0.5 w-10 bg-cyber-pink mb-4"></div>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>> PyTorch / TensorFlow</li>
+                        <li>> Scikit-Learn</li>
+                        <li>> Model Optimization</li>
+                        <li>> Predictive Analytics</li>
+                    </ul>
+                </div>
 
-    <section id="products" class="section">
-      <div class="container">
-        <h2>产品与服务</h2>
-        <div class="cards">
-          <div class="card">
-            <h3>AI客服与智能体</h3>
-            <p>基于多智能体协作，实现7×24小时多渠道服务，降低人工成本并提升满意度。</p>
-            <ul>
-              <li>多语言、多渠道接入</li>
-              <li>知识库自学习与持续优化</li>
-              <li>工单闭环与CRM对接</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>企业知识中台</h3>
-            <p>构建企业专属知识库与RAG问答系统，确保信息可控、可追踪、可更新。</p>
-            <ul>
-              <li>私有化部署可选</li>
-              <li>向量索引与检索增强</li>
-              <li>权限与审计</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>行业解决方案</h3>
-            <p>覆盖电商、制造、金融、政务等行业，从咨询到交付的一体化方案。</p>
-            <ul>
-              <li>场景梳理与试点</li>
-              <li>模型选型与评测</li>
-              <li>上线运营与SLA</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+                <!-- Skill Card 2 -->
+                <div class="cyber-border p-6 group hover:translate-y-[-5px] transition-transform duration-300">
+                    <div class="text-cyber-pink text-4xl mb-4"><i class="fas fa-eye"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-pink">COMPUTER VISION</h3>
+                    <div class="h-0.5 w-10 bg-cyber-cyan mb-4"></div>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>> Object Detection (YOLO)</li>
+                        <li>> Image Segmentation</li>
+                        <li>> OpenCV</li>
+                        <li>> Facial Recognition</li>
+                    </ul>
+                </div>
 
-    <section id="solutions" class="section alt">
-      <div class="container">
-        <h2>解决方案</h2>
-        <div class="timeline">
-          <div class="step">
-            <div class="dot"></div>
-            <h4>1. 诊断与评估</h4>
-            <p>业务目标、数据资产与流程现状评估，识别可落地场景与衡量指标。</p>
-          </div>
-          <div class="step">
-            <div class="dot"></div>
-            <h4>2. 原型与验证</h4>
-            <p>快速原型与A/B验证，数据闭环，降低试错成本。</p>
-          </div>
-          <div class="step">
-            <div class="dot"></div>
-            <h4>3. 工程化落地</h4>
-            <p>平台化与服务化架构，打通权限、审计、监控与运维体系。</p>
-          </div>
-          <div class="step">
-            <div class="dot"></div>
-            <h4>4. 规模化运营</h4>
-            <p>持续优化与效果量化，SLA保障与多环境发布管控。</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="container two-col">
-        <div>
-          <h2>联系我们</h2>
-          <p>欢迎与我们交流业务与合作机会。提交需求后，我们将在1个工作日内回复。</p>
-          <div class="contact-list">
-            <div class="item">
-              <span class="label">邮箱</span>
-              <a href="mailto:hi@aigeek.example">790317052@qq.com</a>
+                <!-- Skill Card 3 -->
+                <div class="cyber-border p-6 group hover:translate-y-[-5px] transition-transform duration-300">
+                    <div class="text-cyber-yellow text-4xl mb-4"><i class="fas fa-comments"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-yellow">LLM & NLP</h3>
+                    <div class="h-0.5 w-10 bg-cyber-cyan mb-4"></div>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>> Prompt Engineering</li>
+                        <li>> RAG Systems</li>
+                        <li>> LangChain Agents</li>
+                        <li>> Transformer Architecture</li>
+                    </ul>
+                </div>
             </div>
-            <div class="item">
-              <span class="label">电话</span>
-              <a href="tel:+865955551234">+8615396339520</a>
-            </div>
-            <div class="item">
-              <span class="label">地址</span>
-              <span>福建省泉州市 · 数字经济产业园</span>
-            </div>
-          </div>
         </div>
-        <form class="panel form" id="contactForm" novalidate>
-          <div class="fields">
-            <label>姓名<input name="name" required placeholder="您的称呼"></label>
-            <label>公司<input name="company" placeholder="公司/组织"></label>
-            <label>邮箱<input type="email" name="email" required placeholder="name@company.com"></label>
-            <label>需求
-              <textarea name="message" rows="4" required placeholder="请描述您的业务场景/期望目标"></textarea>
-            </label>
-          </div>
-          <button type="submit" class="btn primary full">提交</button>
-          <p class="form-tip">请核对信息无误后提交</p>
-          <div class="toast" id="toast" role="status" aria-live="polite"></div>
-        </form>
-      </div>
     </section>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <div class="brand small"><span class="logo-glow">AI</span><span class="logo-thin">极客</span></div>
-        <p class="muted">以AI驱动新生产力 · 让每一个组织更聪明</p>
-      </div>
-      <div class="links">
-        <a href="#about">关于我们</a>
-        <a href="#products">产品与服务</a>
-        <a href="#solutions">解决方案</a>
-        <a href="#contact">联系我们</a>
-      </div>
-      <div class="legal">
-        <p>© <span id="year"></span> AI极客 · 保留所有权利</p>
-      </div>
-    </div>
-  </footer>
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between mb-12 border-b border-gray-800 pb-4">
+                <h2 class="text-4xl font-bold text-white text-glow-pink">PROJECT_DATABASE</h2>
+                <span class="text-cyber-cyan text-sm hidden sm:block">Access Level: UNRESTRICTED</span>
+            </div>
 
-  <script src="/script.js"></script>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Project 1 -->
+                <div class="relative group">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-cyber-cyan to-cyber-pink rounded opacity-50 blur group-hover:opacity-100 transition duration-500"></div>
+                    <div class="relative bg-cyber-black p-6 border border-gray-800 h-full">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold text-white">Neural Trader Bot</h3>
+                            <span class="text-xs border border-cyber-yellow text-cyber-yellow px-2 py-1 rounded">PYTHON</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Autonomous trading agent using Reinforcement Learning to predict cryptocurrency market trends with 85% accuracy.</p>
+                        <button class="text-cyber-cyan text-sm hover:underline">VIEW SOURCE >></button>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="relative group">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-cyber-pink to-cyber-cyan rounded opacity-50 blur group-hover:opacity-100 transition duration-500"></div>
+                    <div class="relative bg-cyber-black p-6 border border-gray-800 h-full">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold text-white">Vision Guardian</h3>
+                            <span class="text-xs border border-cyber-cyan text-cyber-cyan px-2 py-1 rounded">CV</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Real-time security system utilizing YOLOv8 for anomaly detection in restricted industrial zones.</p>
+                        <button class="text-cyber-pink text-sm hover:underline">VIEW SOURCE >></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / WeChat Section -->
+    <section id="contact" class="py-20 relative z-10 bg-gradient-to-b from-transparent to-cyber-black">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-8 text-white">ESTABLISH UPLINK</h2>
+            
+            <!-- WeChat Card -->
+            <div class="cyber-border p-8 md:p-12 bg-cyber-dark/80 backdrop-blur max-w-lg mx-auto transform transition hover:scale-105">
+                <div class="text-cyber-cyan mb-2 text-xs tracking-widest">ENCRYPTED CONNECTION ID</div>
+                
+                <div class="flex flex-col items-center justify-center space-y-6">
+                    <!-- Icon -->
+                    <div class="w-20 h-20 rounded-full border-2 border-cyber-pink flex items-center justify-center shadow-[0_0_15px_rgba(255,0,255,0.5)]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.5,14.5 C4.5,14.5 1,11.5 1,7.5 C1,3.5 4.5,0.5 8.5,0.5 C12.5,0.5 16,3.5 16,7.5 C16,11.5 12.5,14.5 8.5,14.5 M8.5,14.5 L6.5,16.5 L8.5,14.5 Z M17.5,8.5 C21.5,8.5 24,11 24,14 C24,17 21.5,20.5 17.5,20.5 C16.5,20.5 15.5,20 14.5,19.5 L12,21 L13,18.5 C12,18 11,16.5 11,14 C11,11 14,8.5 17.5,8.5 Z"/>
+                        </svg>
+                    </div>
+
+                    <!-- ID Display -->
+                    <div class="text-center">
+                        <div class="text-gray-400 text-sm mb-1">WeChat ID / 微信号</div>
+                        <div class="text-3xl md:text-4xl font-bold text-white tracking-wider bg-black/50 px-4 py-2 border-l-4 border-cyber-cyan">
+                            atay123
+                        </div>
+                    </div>
+
+                    <!-- Copy Button -->
+                    <button onclick="copyWeChat()" id="copyBtn" class="group relative px-8 py-3 bg-transparent overflow-hidden border border-cyber-cyan text-cyber-cyan hover:text-black transition-colors duration-300">
+                        <span class="absolute inset-0 w-full h-full bg-cyber-cyan/10 group-hover:bg-cyber-cyan transition-all duration-300"></span>
+                        <span class="relative font-bold flex items-center gap-2">
+                            <span id="btnText">COPY ID TO CLIPBOARD</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </span>
+                    </button>
+                    <div id="copyFeedback" class="text-cyber-pink text-sm h-4 opacity-0 transition-opacity duration-300">>> ID COPIED TO BUFFER</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-cyber-dim text-center text-gray-600 text-sm relative z-10 bg-black">
+        <p>&copy; 2025 ATAY_AI. ALL SYSTEMS NOMINAL.</p>
+    </footer>
+
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const cols = Math.floor(width / 20) + 1;
+        const ypos = Array(cols).fill(0);
+
+        // Cyberpunk colors for the matrix
+        const colors = ['#00f3ff', '#ff00ff', '#00ff00', '#cccccc'];
+
+        function matrix() {
+            // Draw a semi-transparent black rectangle to create the fade trail effect
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.font = '15pt monospace';
+
+            ypos.forEach((y, ind) => {
+                // Random character (Katakana + Latin + Numbers)
+                const text = String.fromCharCode(Math.random() * 128);
+                
+                // Random color from palette
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                
+                const x = ind * 20;
+                ctx.fillText(text, x, y);
+
+                if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+                else ypos[ind] = y + 20;
+            });
+        }
+
+        setInterval(matrix, 50);
+
+        // Resize listener
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Copy Function
+        function copyWeChat() {
+            const weChatID = "atay123";
+            const feedback = document.getElementById('copyFeedback');
+            const btnText = document.getElementById('btnText');
+            
+            // Fallback for older browsers or iframe restrictions
+            const textArea = document.createElement("textarea");
+            textArea.value = weChatID;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                
+                // UI Feedback
+                feedback.style.opacity = '1';
+                btnText.innerText = "COPIED!";
+                
+                setTimeout(() => {
+                    feedback.style.opacity = '0';
+                    btnText.innerText = "COPY ID TO CLIPBOARD";
+                }, 2000);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                alert('微信号: atay123');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+    </script>
 </body>
 </html>

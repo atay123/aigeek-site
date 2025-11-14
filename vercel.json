@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "name": "aigeek-site",
-  "routes": [
-    { "src": "/(favicon\\.ico|favicon\\.svg|robots\\.txt|sitemap\\.xml)", "dest": "/$1" },
-    { "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|webp|ico|json|txt|woff|woff2|ttf|otf))", "dest": "/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
